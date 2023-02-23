@@ -37,7 +37,7 @@ jobs:
         with:
           # token_format: access_token
           create_credentials_file: 'true'
-          workload_identity_provider: ${{ env.GCP_WORKFLOW_PROVIDER }}
+          workload_identity_provider: ${{ env.GCP_WORKFLOW_PROVIDER }}a
           service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
 
       - uses: hashicorp/setup-terraform@v2
