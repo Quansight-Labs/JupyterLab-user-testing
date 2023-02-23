@@ -22,7 +22,7 @@ jobs:
           namespace: "admin/quansight"
           role: "repository-quansight-labs-jupyterlab-user-testing-role"
           secrets: |
-            kv/data/repository/Quansight-Labs/JupyterLab-user-testing/shared_secrets PYPI_USERNAME | PYPI_USERNAME
+            kv/data/repository/Quansight/conda-store/shared_secrets PYPI_USERNAME | PYPI_USERNAME
 
       - name: Use secret from Vault
         run: |
