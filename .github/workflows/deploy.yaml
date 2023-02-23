@@ -32,7 +32,8 @@ jobs:
             kv/data/repository/Quansight-Labs/JupyterLab-user-testing/google_cloud_platform/quansight-jlab-a11y/github service_account_name | GCP_SERVICE_ACCOUNT;
             kv/data/repository/Quansight-Labs/JupyterLab-user-testing/cloudflare/internal-devops@quansight.com/github-quansight-jupyterlab-accesibility-tljh token | CLOUDFLARE_API_TOKEN;
 
-      - name: 'Authenticate to GCP'
+      - id: auth
+        name: 'Authenticate to GCP'
         uses: 'google-github-actions/auth@v1'
         with:
           create_credentials_file: 'true'
@@ -61,6 +62,8 @@ jobs:
         id: plan
         run: terraform plan -no-color
         continue-on-error: true
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
 
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
@@ -127,3 +130,5 @@ jobs:
       - name: Terraform Apply
         # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
