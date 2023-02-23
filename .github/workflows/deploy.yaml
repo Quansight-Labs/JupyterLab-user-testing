@@ -26,7 +26,7 @@ jobs:
             kv/data/repository/Quansight-Labs/JupyterLab-user-testing/google_cloud_platform/quansight-jlab-a11y/github project_id | PROJECT_ID;
             kv/data/repository/Quansight-Labs/JupyterLab-user-testing/google_cloud_platform/quansight-jlab-a11y/github workload_identity_provider | GCP_WORKFLOW_PROVIDER;
             kv/data/repository/Quansight-Labs/JupyterLab-user-testing/google_cloud_platform/quansight-jlab-a11y/github service_account_name | GCP_SERVICE_ACCOUNT;
-            kv/data/repository/Quansight-Labs/JupyterLab-user-testing/cloudflare/Internal-devops@quansight.com's\ Account/github-quansight-jupyterlab-accesibility-tljh token | CLOUDFLARE_API_TOKEN;
+            kv/data/repository/Quansight-Labs/JupyterLab-user-testing/cloudflare/internal-devops@quansight.com/github-quansight-jupyterlab-accesibility-tljh token | CLOUDFLARE_API_TOKEN;
 
       - name: 'Authenticate to GCP'
         uses: 'google-github-actions/auth@v1'
