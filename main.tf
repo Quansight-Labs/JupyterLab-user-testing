@@ -53,7 +53,7 @@ resource "google_compute_instance" "main" {
 
   boot_disk {
     initialize_params {
-      image = " ubuntu-2204-jammy-v20230214"
+      image = "ubuntu-2204-lts"
     }
   }
 
