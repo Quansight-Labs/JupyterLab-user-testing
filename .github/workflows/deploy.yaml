@@ -22,8 +22,15 @@ jobs:
           namespace: "admin/quansight"
           role: "repository-quansight-labs-jupyterlab-user-testing-role"
           secrets: |
-            kv/data/repository/Quansight-Labs/JupyterLab-user-testing/shared_secrets PYPI_USERNAME | PYPI_USERNAME
+            kv/data/repository/Quansight-Labs/JupyterLab-user-testing/shared_secrets TF_API_TOKEN | TF_API_TOKEN
+            kv/data/repository/Quansight-Labs/JupyterLab-user-testing/google_cloud_platform/quansight-jlab-a11y/github project_id | PROJECT_ID
+            kv/data/repository/Quansight-Labs/JupyterLab-user-testing/google_cloud_platform/quansight-jlab-a11y/github workload_identity_provider | GCP_WORKFLOW_PROVIDER;
+            kv/data/repository/Quansight-Labs/JupyterLab-user-testing/google_cloud_platform/quansight-jlab-a11y/github service_account_name | GCP_SERVICE_ACCOUNT;
+            kv/data/repository/Quansight-Labs/JupyterLab-user-testing/cloudflare/Internal-devops@quansight.com's Account/github-quansight-jupyterlab-accesibility-tljh token | CLOUDFLARE_API_TOKEN;
 
-      - name: Use secret from Vault
-        run: |
-          python -c "import os; print(os.environ['PYPI_USERNAME'])"
+      - name: 'Authenticate to GCP'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          create_credentials_file: 'true'
+          workload_identity_provider: ${{ env.GCP_WORKFLOW_PROVIDER }}
+          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
