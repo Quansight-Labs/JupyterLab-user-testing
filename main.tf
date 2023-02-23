@@ -20,7 +20,7 @@ provider "google" {}
 
 resource "google_compute_firewall" "allow-http" {
   name    = "http-firewall"
-  network = google_compute_network.default.name
+  network = "default"
 
   source_ranges = ["0.0.0.0/0"]
 
@@ -30,10 +30,6 @@ resource "google_compute_firewall" "allow-http" {
   }
 
   source_tags = ["web"]
-}
-
-resource "google_compute_network" "default" {
-  name = "test-network"
 }
 
 resource "google_compute_instance" "default" {
@@ -46,9 +42,6 @@ resource "google_compute_instance" "default" {
   boot_disk {
     initialize_params {
       image = " ubuntu-2204-jammy-v20230214"
-      labels = {
-        my_label = "value"
-      }
     }
   }
 
