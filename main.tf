@@ -20,8 +20,9 @@ terraform {
   }
 }
 
-
-provider "google" {}
+provider "google" {
+  region = "us-central1"
+}
 
 provider "cloudflare" {}
 
