@@ -39,7 +39,6 @@ jobs:
           create_credentials_file: 'true'
           workload_identity_provider: ${{ env.GCP_WORKFLOW_PROVIDER }}
           service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
-          audience: "https://iam.googleapis.com/projects/790595132710/locations/global/workloadIdentityPools/quansight-jlab-a11y/providers/github"
 
       - uses: hashicorp/setup-terraform@v2
         with:
