@@ -1,0 +1,29 @@
+name: deploy
+
+on:
+  push
+
+jobs:
+  retrieve-secret:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Retrieve secret from Vault
+        uses: hashicorp/vault-action@v2.4.0
+        with:
+          method: jwt
+          url: https://quansight-public-vault-fe415d04.c219cf75.z1.hashicorp.cloud:8200
+          namespace: admin/quansight
+          role: repository-quansight-labs-jupyterlab-user-testing-role
+          secrets: |
+            kv/repository/Quansight-Labs/JupyterLab-user-testing/shared_secrets PYPI_USERNAME | PYPI_USERNAME
+
+      - name: Use secret from Vault
+        run: |
+          python -c "import os; print(os.environ['PYPI_USERNAME'])"
