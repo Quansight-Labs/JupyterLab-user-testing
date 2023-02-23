@@ -18,14 +18,30 @@ terraform {
 
 provider "google" {}
 
+resource "google_compute_firewall" "allow-http" {
+  name    = "http-firewall"
+  network = google_compute_network.default.name
 
+  source_ranges = ["0.0.0.0/0"]
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "443"]
+  }
+
+  source_tags = ["web"]
+}
+
+resource "google_compute_network" "default" {
+  name = "test-network"
+}
 
 resource "google_compute_instance" "default" {
   name         = "jupyterlab-a11y-testing"
   machine_type = "e2-standard-2"
   zone         = "us-central1-a"
 
-  tags = ["foo", "bar"]
+  tags = ["web"]
 
   boot_disk {
     initialize_params {
