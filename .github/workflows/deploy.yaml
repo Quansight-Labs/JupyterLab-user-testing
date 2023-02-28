@@ -1,4 +1,4 @@
-name: deploy
+name: Deploy TLJH on GCP
 
 on:
   push:
@@ -10,6 +10,9 @@ jobs:
   terraform-deploy:
     runs-on: ubuntu-latest
 
+    # Ensuring the GITHUB_TOKEN has needed permissions
+    # see https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs
+    # and ability to comment on PRs
     permissions:
       id-token: write
       contents: read

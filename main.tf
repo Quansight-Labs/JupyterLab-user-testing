@@ -64,10 +64,6 @@ resource "google_compute_instance" "main" {
       nat_ip = google_compute_address.static.address
     }
   }
-
-  metadata = {
-    foo = "bar"
-  }
 }
 
 data "cloudflare_zone" "main" {
@@ -81,13 +77,3 @@ resource "cloudflare_record" "main" {
   type    = "A"
   proxied = false
 }
-
-
-# follow tljh installation instructions
-# 0. visit vm gcp page and ssh into instance
-# 1. curl -L https://tljh.jupyter.org/bootstrap.py | sudo -E python3 - --admin <admin-user-name>
-# 2. sudo tljh-config set https.enabled true
-# 3. sudo tljh-config set https.letsencrypt.email costrouchov@quansight.com
-# 4. sudo tljh-config add-item https.letsencrypt.domains jupyter-a11y.quansight.dev
-# 5. sudo tljh-config reload proxy
-# 6. login to domain with jupyter-a11y.quansight.dev and set initial password
