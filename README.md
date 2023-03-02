@@ -98,6 +98,10 @@ which checks what resources will be created/destroyed/or updated. And a comment 
 
    For more details on what the installer does, refer to the [TLJH documentation: What does the installer do?](https://tljh.jupyter.org/en/latest/topic/installer-actions.html#topic-installer-actions).
 
+   > **Warning:**
+   > Make sure to read the [Security considerations and suggestions in the TLJH documentation](https://tljh.jupyter.org/en/latest/topic/security.html) before proceeding.
+   > In brief: make sure only the GCP resources admin has `sudo` access to the VM and grant the least-privilege access to users and testers.
+
 #### Setting a DNS and a custom domain
 
 ```bash
