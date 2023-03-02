@@ -1,42 +1,101 @@
-# JupyterLab-user-testing
+# JupyterLab User Testing Environment
+
 Repository containing infrastructure and testing scripts for JupyterLab user testing ✨
 
-## TLJH
+- [JupyterLab User Testing Environment](#jupyterlab-user-testing-environment)
+  - [Overview 📝](#overview-)
+  - [Development and deployment 🏗](#development-and-deployment-)
+    - [Pre-requisites](#pre-requisites)
+    - [Deployment](#deployment)
 
-Access via `https://jupyter-a11y.quansight.dev`
+## Overview 📝
 
-### Requirements
+The environment is based on [The Littlest JupyterHub (TLJH)][TLJH] which is a JupyterHub distribution for a few users (0-100).
 
- - Terraform
- - Google Cloud Platform account
- - Cloudflare account
+For more information about The Littlest JupyterHub, [refer to TLJH's official documentation][TLJH].
 
-While this github actions gets credentials via OIDC your method of
-authentication will be different.
+The contents of this repository are:
 
-See the following for getting credentials:
- - [How to get credentials for GCP](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/getting_started)
- - [How to get credentials for Cloudflare](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs)
+```ascii
+.
+├── .github - GitHub Actions workflows used to deploy the environment through Terraform
+├── notebooks - Notebooks used for user testing
+├── `.pre-commit-config.yaml` - Configuration file for pre-commit
+└── `main.tf` - Terraform configuration file
+```
+
+## Development and deployment 🏗
+
+This section provides information on how to make changes to and deploy the user testing environment.
+
+### Pre-requisites
+
+To use the contents of this repository as is you will need to have the following tools installed:
+
+- [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+
+As well as:
+
+- A Google Cloud Platform account
+- A Cloudflare account
+
+> **Note**:
+> You can deploy TLJH on any public cloud provider. We have so far used GCP as our provider of choice, but TLJH in itself is vendor-agnostic.
+> Refer to the [TLJH documentation for more details][TLJH].
+
+> **Warning**:
+> While the GitHub actions workflows in this repository gets credentials via OIDC (OpenID Connect) you can use a different method to get credentials.
+
+For more information on getting the needed credentials, refer to:
+
+- [How to get credentials for GCP](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/getting_started)
+- [How to get credentials for Cloudflare](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs)
 
 ### Deployment
 
-Currently all infrastructure is deployed via Terraform to Google Cloud
-Platform. We deploy an `Ubuntu 22.02 LTS` VM of size `e2-standard-2`
-(2 CPU and 8 GB RAM) in the `us-central1-a` region/zone. We use
-Cloudflare to point a Quansight owned DNS domain to the GCP
-server. When a pull request is opened a `terraform plan` step is run
+Currently, all infrastructure is deployed via Terraform to Google Cloud
+Platform:
+
+- VM: `Ubuntu 22.02 LTS` of size `e2-standard-2 (2 CPU and 8 GB RAM)
+- GCP region: `us-central1-a` region/zone
+
+1. When a pull request is opened a `terraform plan` step is run
 which checks what resources will be created/destroyed/or updated. On
 push to `main` resources are applied via `terraform apply`.
 
-Additional steps since it is hard to fully automate TLJH in terraform:
+Note that the GitHub action will only provision the virtual machine, so additional steps are needed:
 
-0. [Visit vm gcp page and ssh into instance](https://console.cloud.google.com/compute/instances)
-1. `curl -L https://tljh.jupyter.org/bootstrap.py | sudo -E python3 - --admin <admin-user-name>`
-2. `sudo tljh-config set https.enabled true`
-3. `sudo tljh-config set https.letsencrypt.email <your-email>`
-4. `sudo tljh-config add-item https.letsencrypt.domains <your-domain>`
-5. `sudo tljh-config reload proxy`
-6. `sudo tljh-config set user_environment.default_app jupyterlab`
-7. `sudo tljh-config reload hub`
-8. `sudo -E conda install -c conda-forge numpy pandas scipy`
-9. login to domain with `https://<your-domain>` with username `<admin-user-name>` and set initial password
+1. Log into the [Google Cloud Console](https://console.cloud.google.com/) with your Google account.
+1. [Connect to your instance through SSH](https://cloud.google.com/compute/docs/instances/ssh)
+1. Copy the text below and paste it into the **Startup script** text in the GCP console:
+
+   ```bash
+   curl -L https://tljh.jupyter.org/bootstrap.py \
+    | sudo -E python3 - \
+    --admin <admin-user-name>
+   ```
+
+   Where `<admin-user-name>` is your GCP username.
+   For more details on what the installer does, refer to the [TLJH documentation: What does the installer do?](https://tljh.jupyter.org/en/latest/topic/installer-actions.html#topic-installer-actions).
+
+Now, you'll need to set up a custom domain at which the environment will be available:
+
+```bash
+   # enable HTTPS and setup an email and domain
+   sudo tljh-config set https.enabled true
+   sudo tljh-config set https.letsencrypt.email <your-email>
+   sudo tljh-config add-item https.letsencrypt.domains <your-domain>
+
+   # reload the proxy to apply the changes
+   sudo tljh-config reload proxy
+
+   # set the default app to JupyterLab
+   sudo tljh-config set user_environment.default_app jupyterlab
+   sudo tljh-config reload hub
+   sudo -E conda install -c conda-forge numpy pandas scipy
+```
+
+1.  login to domain with `https://<your-domain>` with username `<admin-user-name>` and set initial password
+
+<!-- links -->
+[TLJH]: https://tljh.jupyter.org/en/latest/index.html
