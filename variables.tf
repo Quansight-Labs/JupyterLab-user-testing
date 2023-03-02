@@ -1,21 +1,21 @@
 variable "region" {
   description = "Region to deploy within"
-  default = "us-central1"
+  default     = "us-central1"
 }
 
 variable "zone" {
   description = "Zone to deploy within"
-  default = "us-central1-a"
+  default     = "us-central1-a"
 }
 
 variable "instance-type" {
   description = "GCP instance to deploy TLJH"
-  default = "e2-standard-2"
+  default     = "e2-standard-2"
 }
 
 variable "subdomain" {
   description = "Subdomain within Domain/Zone to deploy tljh"
-  default       = "jupyter-a11y"
+  default     = "jupyter-a11y"
 }
 
 variable "domain" {
