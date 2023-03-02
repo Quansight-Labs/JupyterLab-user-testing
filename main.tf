@@ -64,6 +64,17 @@ resource "google_compute_instance" "main" {
       nat_ip = google_compute_address.static.address
     }
   }
+
+  metadata_startup_script = <<EOT
+curl -L https://tljh.jupyter.org/bootstrap.py | sudo python3 - --admin costrouc
+sudo tljh-config set https.enabled true
+sudo tljh-config set https.letsencrypt.email costrouchov@quansight.com
+sudo tljh-config add-item https.letsencrypt.domains jupyter-a11y.quansight.dev
+sudo tljh-config reload proxy
+sudo tljh-config set user_environment.default_app jupyterlab
+sudo tljh-config reload hub
+sudo -E conda install -c conda-forge numpy pandas scipy
+EOT
 }
 
 data "cloudflare_zone" "main" {
