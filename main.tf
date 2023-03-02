@@ -21,7 +21,7 @@ terraform {
 }
 
 provider "google" {
-  region = "us-central1"
+  region = var.region
 }
 
 provider "cloudflare" {}
@@ -46,8 +46,8 @@ resource "google_compute_address" "static" {
 
 resource "google_compute_instance" "main" {
   name         = "jupyterlab-a11y-testing"
-  machine_type = "e2-standard-2"
-  zone         = "us-central1-a"
+  machine_type = var.instance-type
+  zone         = var.zone
 
   tags = ["web"]
 
@@ -66,10 +66,10 @@ resource "google_compute_instance" "main" {
   }
 
   metadata_startup_script = <<EOT
-curl -L https://tljh.jupyter.org/bootstrap.py | sudo python3 - --admin costrouc
+curl -L https://tljh.jupyter.org/bootstrap.py | sudo python3 - --admin ${var.admin-username}
 sudo tljh-config set https.enabled true
-sudo tljh-config set https.letsencrypt.email costrouchov@quansight.com
-sudo tljh-config add-item https.letsencrypt.domains jupyter-a11y.quansight.dev
+sudo tljh-config set https.letsencrypt.email ${var.letsencrypt-email}
+sudo tljh-config add-item https.letsencrypt.domains ${var.subdomain}.${var.domain}
 sudo tljh-config reload proxy
 sudo tljh-config set user_environment.default_app jupyterlab
 sudo tljh-config reload hub
@@ -78,12 +78,12 @@ EOT
 }
 
 data "cloudflare_zone" "main" {
-  name = "quansight.dev"
+  name = var.domain
 }
 
 resource "cloudflare_record" "main" {
   zone_id = data.cloudflare_zone.main.id
-  name    = "jupyter-a11y"
+  name    = var.subdomain
   value   = google_compute_address.static.address
   type    = "A"
   proxied = false

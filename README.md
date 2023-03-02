@@ -28,18 +28,10 @@ server. When a pull request is opened a `terraform plan` step is run
 which checks what resources will be created/destroyed/or updated. On
 push to `main` resources are applied via `terraform apply`.
 
-Additional steps since it is hard to fully automate TLJH in terraform:
-
-0. [Visit vm gcp page and ssh into instance](https://console.cloud.google.com/compute/instances)
-1. `curl -L https://tljh.jupyter.org/bootstrap.py | sudo -E python3 - --admin <admin-user-name>`
-2. `sudo tljh-config set https.enabled true`
-3. `sudo tljh-config set https.letsencrypt.email <your-email>`
-4. `sudo tljh-config add-item https.letsencrypt.domains <your-domain>`
-5. `sudo tljh-config reload proxy`
-6. `sudo tljh-config set user_environment.default_app jupyterlab`
-7. `sudo tljh-config reload hub`
-8. `sudo -E conda install -c conda-forge numpy pandas scipy`
-9. login to domain with `https://<your-domain>` with username `<admin-user-name>` and set initial password
+In order to make this setup work for you you will need to modify a few
+variables found in [variables.tf](./variables.tf). Once deployment
+completes immediately login to domain with `https://<your-domain>`
+with username `<admin-user-name>` and set initial password
 
 
 
