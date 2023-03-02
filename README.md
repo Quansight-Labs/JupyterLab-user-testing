@@ -12,7 +12,7 @@ Access via `https://jupyter-a11y.quansight.dev`
  - Cloudflare account
 
 While this github actions gets credentials via OIDC your method of
-authentication will be different. 
+authentication will be different.
 
 See the following for getting credentials:
  - [How to get credentials for GCP](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/getting_started)
@@ -40,7 +40,3 @@ Additional steps since it is hard to fully automate TLJH in terraform:
 7. `sudo tljh-config reload hub`
 8. `sudo -E conda install -c conda-forge numpy pandas scipy`
 9. login to domain with `https://<your-domain>` with username `<admin-user-name>` and set initial password
-
-
-
-
