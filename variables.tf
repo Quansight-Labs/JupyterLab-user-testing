@@ -1,10 +1,10 @@
 variable "region" {
-  description = "Region to deploy within"
+  description = "Region to deploy the resources in"
   default     = "us-central1"
 }
 
 variable "zone" {
-  description = "Zone to deploy within"
+  description = "Zone to deploy the resources in"
   default     = "us-central1-a"
 }
 
