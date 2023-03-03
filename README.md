@@ -23,8 +23,8 @@ The contents of this repository are:
 .
 ├── .github - GitHub Actions workflows used to deploy the environment through Terraform
 ├── notebooks - Notebooks used for user testing (contain the tasks or workflows to be tested)
-├── `.pre-commit-config.yaml` - Configuration file for pre-commit
-└── `main.tf` - Terraform configuration file
+├── .pre-commit-config.yam - Configuration file for pre-commit hooks
+└── main.t - Terraform configuration file
 ```
 
 ## Development and deployment 🏗
@@ -35,11 +35,11 @@ This section provides information on how to make changes to and deploy the user 
 
 To use the contents of this repository as is you will need to have the following tools installed:
 
-- [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+- [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli) >= 1.3.7
 
 > **Note**:
 > You can deploy TLJH on any public cloud provider. We have so far used GCP as our provider of choice, but TLJH in itself is vendor-agnostic.
-> Refer to the [TLJH documentation for more details][TLJH].
+> Refer to the [TLJH documentation for more details][TLJH] on how to deploy TLJH on other cloud providers.
 
 Optional requirements - but needed if intending to use the repository contents as-is:
 
@@ -56,31 +56,25 @@ For more information on getting GCP credentials, refer to:
 
 ### Deployment
 
-There are three major steps to deploying the environment:
+There are three major steps to deploying the testing environment:
 
-- [JupyterLab User Testing Environment](#jupyterlab-user-testing-environment)
-  - [Overview 📝](#overview-)
-  - [Development and deployment 🏗](#development-and-deployment-)
-    - [Pre-requisites](#pre-requisites)
-    - [Deployment](#deployment)
-      - [Provisioning the VM on GCP](#provisioning-the-vm-on-gcp)
-      - [Installing TLJH](#installing-tljh)
-      - [Setting a DNS and a custom domain](#setting-a-dns-and-a-custom-domain)
+1. [Provisioning the virtual machine (VM) on which TLJH will be installed](#provisioning-the-vm-on-gcp)
+2. [Installing TLJH on your VM](#installing-tljh)
+3. [Final customizations](#setting-a-dns-and-a-custom-domain)
 
 #### Provisioning the VM on GCP
 
 Currently, all infrastructure is deployed via Terraform to GCP. The following resources are created:
 
-- VM: `Ubuntu 22.02 LTS` of size `e2-standard-2 (2 CPU and 8 GB RAM)
-- GCP region: `us-central1-a` region/zone
+- VM: `Ubuntu 22.02 LTS` of size [`e2-standard-2`](https://cloud.google.com/compute/docs/machine-resource#recommendations_for_machine_types) (2 CPU and 8 GB RAM)
+- GCP region: `us-central1-a`.
 
 This deployment is handled automatically through the [`.github/workflows/deploy.yaml`](.github/workflows/deploy.yaml) workflow.
 
 - **When a new Pull Request is opened:** `terraform plan` step is run
-which checks what resources will be created/destroyed/or updated. And a comment is added with the corresponding plan
+which checks what resources will be created/destroyed/or updated. And a comment is added to the PR with the corresponding plan.
+   ![GitHub PR comment with the Terraform plan](./img/pr-comment.png)
 - **On push/merge to `main`:** resources are applied via `terraform apply` and the cloud resources will be created/destroyed/updated accordingly.
-
-<!-- TODO add image -->
 
 #### Installing TLJH
 
@@ -89,9 +83,9 @@ which checks what resources will be created/destroyed/or updated. And a comment 
 3. Install TLJH - copy the text below and paste it into the **Startup script** text in the GCP console:
 
    ```bash
-   curl -L https://tljh.jupyter.org/bootstrap.py \
-    | sudo -E python3 - \
-    --admin <admin-user-name>
+      curl -L https://tljh.jupyter.org/bootstrap.py \
+       | sudo -E python3 - \
+       --admin <admin-user-name>
    ```
 
    Where `<admin-user-name>` is your GCP username.
@@ -104,22 +98,52 @@ which checks what resources will be created/destroyed/or updated. And a comment 
 
 #### Setting a DNS and a custom domain
 
-```bash
-   # enable HTTPS and setup an email and domain
-   sudo tljh-config set https.enabled true
-   sudo tljh-config set https.letsencrypt.email <your-email>
-   sudo tljh-config add-item https.letsencrypt.domains <your-domain>
+1. The first step is to [enable automatic `HTTPS`](https://tljh.jupyter.org/en/latest/howto/admin/https.html#howto-admin-https) with Let's Encrypt:
 
-   # reload the proxy to apply the changes
-   sudo tljh-config reload proxy
+   ```bash
+      sudo tljh-config set https.enabled true
+      sudo tljh-config set https.letsencrypt.email <your-email>
+      sudo tljh-config add-item https.letsencrypt.domains <your-domain>
+   ```
 
+   Where `<your-email>` is your email address and `<your-domain>` is the domain where your hub will be running.
+
+   Once you complete this step, you can check your TLJH configuration
+
+   ```shell
+   $ sudo tljh-config show
+
+   #sample output:
+   enabled: true
+      letsencrypt:
+       email: <your-email>
+       domains:
+       - <your-domain>
+   ```
+
+2. You can now reload the proxy to load the new configuration
+
+   ```bash
+      sudo tljh-config reload proxy
+   ```
+
+   At this point, the proxy should negotiate with Let’s Encrypt to set up a trusted HTTPS certificate for you. It may take a moment for the proxy to negotiate with Let’s Encrypt to get your certificates, after which you can access your Hub securely at `https://<your-domain>`.
+
+3. Finally, we apply some customizations needed:
+
+   ```bash
    # set the default app to JupyterLab
    sudo tljh-config set user_environment.default_app jupyterlab
+   # reload the hub to apply the new configuration
    sudo tljh-config reload hub
+   # install packages needed for the tests
    sudo -E conda install -c conda-forge numpy pandas scipy
-```
+   ```
 
-1.  login to domain with `https://<your-domain>` with username `<admin-user-name>` and set initial password
+   > **Note:**
+   > For a detailed list of TLJH configuration options, refer to the [TLJH documentation: Customizing the installer](https://tljh.jupyter.org/en/latest/topic/customizing-installer.html).
+
+🚀 You are now ready to start testing! You should now be able to log in to your JupyterHub at `https://<your-domain>` with username `<admin-user-name>` and set an initial password.
 
 <!-- links -->
 [TLJH]: https://tljh.jupyter.org/en/latest/index.html
