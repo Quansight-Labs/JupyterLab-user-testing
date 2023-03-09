@@ -33,6 +33,12 @@ variables found in [variables.tf](./variables.tf). Once deployment
 completes immediately login to domain with `https://<your-domain>`
 with username `<admin-user-name>` and set initial password
 
+#### Customizing the Environment
+
+Users can modify the python environment via the
+[requirements.txt](./requirements.txt). These requirements will be pip
+installed automatically on each new re-deployment.
+
 ## Requirements
 
 | Name | Version |
