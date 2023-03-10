@@ -66,14 +66,13 @@ resource "google_compute_instance" "main" {
   }
 
   metadata_startup_script = <<EOT
-curl -L https://tljh.jupyter.org/bootstrap.py | sudo python3 - --admin ${var.admin-username}
+curl -L https://tljh.jupyter.org/bootstrap.py | sudo python3 - --admin ${var.admin-username} --user-requirements-txt-url https://raw.githubusercontent.com/Quansight-Labs/JupyterLab-user-testing/main/requirements.txt
 sudo tljh-config set https.enabled true
 sudo tljh-config set https.letsencrypt.email ${var.letsencrypt-email}
 sudo tljh-config add-item https.letsencrypt.domains ${var.subdomain}.${var.domain}
 sudo tljh-config reload proxy
 sudo tljh-config set user_environment.default_app jupyterlab
 sudo tljh-config reload hub
-sudo -E conda install -c conda-forge numpy pandas scipy
 EOT
 }
 
