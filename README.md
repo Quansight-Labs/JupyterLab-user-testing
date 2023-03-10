@@ -1,63 +1,115 @@
-# JupyterLab-user-testing
+# JupyterLab User Testing Environment
+
 Repository containing infrastructure and testing scripts for JupyterLab user testing ✨
 
-## TLJH
+- [JupyterLab User Testing Environment](#jupyterlab-user-testing-environment)
+  - [Overview 📝](#overview-)
+  - [Development and deployment 🏗](#development-and-deployment-)
+    - [Pre-requisites](#pre-requisites)
+    - [Deployment](#deployment)
+  - [Terraform configuration 🛠](#terraform-configuration-)
+    - [Requirements](#requirements)
+    - [Providers](#providers)
+    - [Modules](#modules)
+    - [Resources](#resources)
+    - [Inputs](#inputs)
+    - [Outputs](#outputs)
 
-Access via `https://jupyter-a11y.quansight.dev`
+## Overview 📝
 
-### Requirements
+The environment is based on [The Littlest JupyterHub (TLJH)][TLJH] which is a JupyterHub distribution for a few users (0-100).
 
- - Terraform
- - Google Cloud Platform account
- - Cloudflare account
+For more information about The Littlest JupyterHub, [refer to TLJH's official documentation][TLJH].
 
-While this github actions gets credentials via OIDC your method of
-authentication will be different. 
+The contents of this repository are:
 
-See the following for getting credentials:
- - [How to get credentials for GCP](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/getting_started)
- - [How to get credentials for Cloudflare](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs)
+```ascii
+.
+├── .github - GitHub Actions workflows used to deploy the environment through Terraform
+├── notebooks - Notebooks used for user testing (contain the tasks or workflows to be tested)
+├── .pre-commit-config.yaml - Configuration file for pre-commit hooks
+├── requirements.txt - Python dependencies needed for the testing workflows
+└── main.tf - Terraform configuration file
+```
+
+## Development and deployment 🏗
+
+This section provides information on how to make changes to and deploy the user testing environment.
+
+### Pre-requisites
+
+To use the contents of this repository *as is* you will need to have the following tools installed:
+
+- [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli) >= 1.3.7
+
+> **Note**:
+> You can deploy TLJH on any public cloud provider. We have so far used GCP as our provider of choice, but TLJH in itself is vendor-agnostic.
+> Refer to the [TLJH documentation for more details][TLJH] on how to deploy TLJH on other cloud providers.
+
+Optional requirements - but needed if intending to use the repository contents as-is:
+
+- A Google Cloud Platform user account
+- A Cloudflare user account
+
+> **Warning**:
+> While the GitHub actions workflows in this repository gets credentials via OIDC (OpenID Connect) you can use a different method to get credentials.
+
+For more information on getting GCP credentials, refer to these documentation links:
+
+- [How to get credentials for GCP](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/getting_started)
+- [How to get credentials for Cloudflare](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs)
 
 ### Deployment
 
-Currently all infrastructure is deployed via Terraform to Google Cloud
-Platform. We deploy an `Ubuntu 22.02 LTS` VM of size `e2-standard-2`
-(2 CPU and 8 GB RAM) in the `us-central1-a` region/zone. We use
-Cloudflare to point a Quansight owned DNS domain to the GCP
-server. When a pull request is opened a `terraform plan` step is run
-which checks what resources will be created/destroyed/or updated. On
-push to `main` resources are applied via `terraform apply`.
+There are three major steps to deploying the testing environment:
 
-In order to make this setup work for you you will need to modify a few
-variables found in [variables.tf](./variables.tf). Once deployment
-completes immediately login to domain with `https://<your-domain>`
-with username `<admin-user-name>` and set initial password
+1. Provisioning the virtual machine (VM) on which TLJH will be installed
+2. Installing TLJH on your VM
+3. Adding any necessary customizations
 
-#### Customizing the Environment
+☁️ Currently, all infrastructure is deployed via Terraform to GCP. To get more details about the resources created as well as the values for `variables.tf`, refer to the [Terraform configuration](#terraform-configuration-) section below.
 
-Users can modify the python environment via the
-[requirements.txt](./requirements.txt). These requirements will be pip
-installed automatically on each new re-deployment.
+The GitHub actions workflow [`.github/workflows/deploy.yaml`](.github/workflows/deploy.yaml) workflow automatically handles the provisioning, installation, and customization steps mentioned above.
 
-## Requirements
+- **When a new Pull Request is opened:** the `terraform plan` step is run
+which checks what resources will be created/destroyed/or updated. And a comment is added to the PR with the corresponding plan.
+   ![GitHub PR comment with the Terraform plan](./img/pr-comment.png)
+- **On push/merge to `main`:** resources are applied via `terraform apply` and the cloud resources will be created/destroyed/updated accordingly.
+
+To provision the VM (on your infrastructure) you will need to follow these steps:
+
+1. For this repository and clone to your local machine.
+2. Update the variables in [`variables.tf`](./variables.tf) to match your requirements.
+3. Commit your changes and open a Pull Request against your fork of the repository.
+4. This will trigger the `terraform plan` step in the GitHub Actions workflow.
+5. If all seems to work correctly you can merge the Pull Request to `main`, which will trigger the provisioning step in the GitHub actions workflow.
+6. Once the deployment and customization are completed, you can immediately log in to the `http://<your-domain>` with the `<admin-user-name>` specified in `variables.tf` and set an initial password.
+
+   > **Warning:**
+   > Make sure to read the [Security considerations and suggestions in the TLJH documentation](https://tljh.jupyter.org/en/latest/topic/security.html) before proceeding.
+   > In brief: make sure only the GCP resources admin has `sudo` access to the VM and grant the least-privilege access to users and testers.
+
+## Terraform configuration 🛠
+
+### Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 3.0 |
+| <a name="requirement_cloudflare"></a> [Cloudflare](#requirement\_cloudflare) | ~> 3.0 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | 4.54.0 |
 
-## Providers
+### Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 3.0 |
+| <a name="provider_cloudflare"></a> [Cloudflare](#provider\_cloudflare) | ~> 3.0 |
 | <a name="provider_google"></a> [google](#provider\_google) | 4.54.0 |
 
-## Modules
+### Modules
 
 No modules.
 
-## Resources
+### Resources
 
 | Name | Type |
 |------|------|
@@ -67,7 +119,7 @@ No modules.
 | [google_compute_instance.main](https://registry.terraform.io/providers/hashicorp/google/4.54.0/docs/resources/compute_instance) | resource |
 | [cloudflare_zone.main](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone) | data source |
 
-## Inputs
+### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
@@ -79,6 +131,9 @@ No modules.
 | <a name="input_subdomain"></a> [subdomain](#input\_subdomain) | Subdomain within Domain/Zone to deploy tljh | `string` | `"jupyter-a11y"` | no |
 | <a name="input_zone"></a> [zone](#input\_zone) | Zone to deploy within | `string` | `"us-central1-a"` | no |
 
-## Outputs
+### Outputs
 
 No outputs.
+
+<!-- links -->
+[TLJH]: https://tljh.jupyter.org/en/latest/index.html
