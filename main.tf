@@ -66,6 +66,7 @@ resource "google_compute_instance" "main" {
   }
 
   metadata_startup_script = <<EOT
+echo "requirements.txt sha256=${filesha256("./requirements.txt")} (trigger redeploy)"
 curl -L https://tljh.jupyter.org/bootstrap.py | sudo python3 - --admin ${var.admin-username} --user-requirements-txt-url https://raw.githubusercontent.com/Quansight-Labs/JupyterLab-user-testing/main/requirements.txt
 sudo tljh-config set https.enabled true
 sudo tljh-config set https.letsencrypt.email ${var.letsencrypt-email}
