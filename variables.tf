@@ -30,5 +30,5 @@ variable "letsencrypt-email" {
 
 variable "admin-username" {
   description = "Initial admin username for tljh deployment"
-  default     = "costrouc"
+  default     = "trallard"
 }
