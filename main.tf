@@ -27,6 +27,8 @@ provider "google" {
 provider "cloudflare" {}
 
 resource "google_compute_firewall" "main" {
+  count = var.enabled ? 1 : 0
+
   name    = "http-firewall"
   network = "default"
 
@@ -41,10 +43,14 @@ resource "google_compute_firewall" "main" {
 }
 
 resource "google_compute_address" "static" {
+  count = var.enabled ? 1 : 0
+
   name = "ipv4-address"
 }
 
 resource "google_compute_instance" "main" {
+  count = var.enabled ? 1 : 0
+
   name         = "jupyterlab-a11y-testing"
   machine_type = var.instance-type
   zone         = var.zone
@@ -61,7 +67,7 @@ resource "google_compute_instance" "main" {
     network = "default"
 
     access_config {
-      nat_ip = google_compute_address.static.address
+      nat_ip = google_compute_address.static.0.address
     }
   }
 
@@ -82,9 +88,11 @@ data "cloudflare_zone" "main" {
 }
 
 resource "cloudflare_record" "main" {
+  count = var.enabled ? 1 : 0
+
   zone_id = data.cloudflare_zone.main.id
   name    = var.subdomain
-  value   = google_compute_address.static.address
+  value   = google_compute_address.static.0.address
   type    = "A"
   proxied = false
 }
