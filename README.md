@@ -89,6 +89,13 @@ To provision the VM (on your infrastructure) you will need to follow these steps
    > Make sure to read the [Security considerations and suggestions in the TLJH documentation](https://tljh.jupyter.org/en/latest/topic/security.html) before proceeding.
    > In brief: make sure only the GCP resources admin has `sudo` access to the VM and grant the least-privilege access to users and testers.
 
+### Teardown
+
+If you would like to destroy the cluster or turn it off temporarily
+there is a terraform setting `enabled` which should be switched to a
+value of `false`. When you would like it re-enabled simply change the
+value back to true. Keep in mind that this deployment is stateless.
+
 ## Terraform configuration 🛠
 
 ### Requirements
@@ -123,6 +130,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_enabled"></a>[enabled](#input\ enabled) | Switch to create/remove all resources. Convenient for quickly disabling the cluster | `string` | `true` | no |
 | <a name="input_admin-username"></a> [admin-username](#input\_admin-username) | Initial admin username for tljh deployment | `string` | `"costrouc"` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | Domain/Zone which you have access to via cloudflare | `string` | `"quansight.dev"` | no |
 | <a name="input_instance-type"></a> [instance-type](#input\_instance-type) | GCP instance to deploy TLJH | `string` | `"e2-standard-2"` | no |

@@ -1,3 +1,9 @@
+variable "enabled" {
+  description = "Switch to create/remove all resources. Convenient for quickly disabling the cluster"
+  default     = false
+  type        = bool
+}
+
 variable "region" {
   description = "Region to deploy the resources in"
   default     = "us-central1"
