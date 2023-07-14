@@ -1,6 +1,6 @@
 # Results: JupyterLab Accessibility Overview
 
-These results are from user interviews conducted in May 2023 with [this test script]() on [a modified version of NumPy Tutorials’ Saving and sharing your NumPy arrays notebook](https://github.com/Quansight-Labs/JupyterLab-user-testing/blob/main/notebooks/save-load-arrays.ipynb). 
+These results are from user interviews conducted in May 2023 with [this test script](user-testing-script.md) on [a modified version of NumPy Tutorials’ Saving and sharing your NumPy arrays notebook](https://github.com/Quansight-Labs/JupyterLab-user-testing/blob/main/notebooks/save-load-arrays.ipynb). 
 
 This work was funded by a [Chan Zuckerberg Initiative Essential Open Source Software for Science grant](https://chanzuckerberg.com/eoss/proposals/inclusive-and-accessible-scientific-computing-in-the-jupyter-ecosystem/). The [full grant proposal can be found on the jupyter/accessibility repository](https://github.com/jupyter/accessibility/blob/da6db43da092255c205ce1603d0d10b1f51c131b/docs/funding/Inclusive_and_Accessible_Scientific_Computing_in_Jupyter_Ecosystem_SUBMITTED_PROPOSAL.pdf).
 
@@ -16,17 +16,17 @@ This work was funded by a [Chan Zuckerberg Initiative Essential Open Source Soft
 
 **Sample size:** 7 participants
 
-**Method:** Combination of qualitative [usability testing](https://www.nngroup.com/articles/usability-testing-101/) and [user interviews](https://www.nngroup.com/articles/user-interviews/)
+**Method:** Combination of [usability testing](https://www.nngroup.com/articles/usability-testing-101/) and [user interviews](https://www.nngroup.com/articles/user-interviews/) resulting in qualitative data.
 
 **Team:** [Isabela Presedo-Floyd](https://github.com/isabela-pf), [Tania Allard](https://github.com/trallard/), [Stephannie Jimenez Gacha](https://github.com/steff456), and [Gabriel Fouasnon](https://github.com/gabalafou/) via [Quansight Labs](https://labs.quansight.org/)
 
-## Limits
+## Limitations
 
-While this study provides insights into how JupyterLab may function for users of assistive technology, it is important to explicitly note limits and gaps in this specific study.
+While this study provides insights into how JupyterLab may function for users of assistive technology, it is important to explicitly note the limitations and gaps in this specific study.
 
 - **We worked with a small sample size of seven participants.** These participants joined as a part of an open call, so they are self-selected. Facilitators did select from within the larger group to make sure participants had used Jupyter tools before and were in a region where we could send payment.
 - **None of the participants used a screen reader.** Screen readers are a prominent group of assistive tech and critical to test with, so an ideal sample would absolutely include them. Of the assistive tech used by participants in this study, none of them present notebook content back to their users in a strictly non-visual way. For example, a screen magnifier user does interact with the notebook very differently than someone working without magnification. But both screen magnifier users and default magnification users are using their vision to read what is on the screen; they are able to directly interact with visual information. A screen reader user would have that content interpreted by the screen reader and read to them; they are interacting with an interpretation of visual information which is often where major issues arise.
-- **This study is not an attempt to determine JupyterLab’s compliance with any single accessibility standard.** These results are not an accessibility statement for JupyterLab, JupyterHub, or any related Jupyter projects.
+- **This study is not an attempt to determine JupyterLab’s conformance with any accessibility standard.** These results are not an accessibility statement for JupyterLab, JupyterHub, or any related Jupyter projects.
 
 ## Findings
 
@@ -55,7 +55,7 @@ This section summarizes issues, participant feedback and other patterns that app
 
 ## Comparing assistive tech and non-assistive tech experiences
 
-Because we had participants who were using assistive tech and participants were not using assistive tech, we were able to observe some of the user experience differences between the two groups. Many of these comparisons highlight some of the disparities and impacts of having an inaccessible interface.
+Because we had participants who were using assistive tech and participants who were not using assistive tech, we could observe some of the user experience differences between the two groups. Many of these comparisons highlight the disparities and impacts of having an inaccessible interface.
 
 It is important to note that in this series of tests those using assistive tech and those not using assistive tech did have similar rates of success for tasks when averaged per test session. Differences arose for how participants managed to complete tasks, the ease at which they expressed completing tasks, and the time it took them to complete tasks. 
 
@@ -96,7 +96,9 @@ Participants craved information. Whether they had a need to compare the testing 
 
 ### JupyterLab experience changes
 
-Based on direct feedback from participants and observed behavior, we’ve found multiple impactful ways to adjust JupyterLab’s user experience with the needs of disabled users as a priority. With the high-level tasks completed during these sessions, problems encountered and specific solutions will be similarly high level. Ironing out experience and implementation details is outside the scope of this work, but is necessary in the future. Overall, JupyterLab’s user experience would benefit from:
+Based on direct feedback from participants and observed behavior, we’ve found multiple impactful ways to align JupyterLab’s user experience with the needs of disabled users as a priority. With the high-level tasks completed during these sessions, problems encountered and specific solutions will be similarly high level. 
+
+Ironing out experience and implementation details is outside the scope of this work but is necessary for the future. Overall, JupyterLab’s user experience would benefit from the following:
 
 #### Improved keyboard navigation support 
 
@@ -117,18 +119,18 @@ This includes the discoverability of existing UI customization features and the 
 
 **Current default JupyterLab feedback for notebook cell status is exclusively visual.** The cell prompt and favicon changes rely on users being able to see the icons, especially since these changes are not surfaced to the user unless their focus happens to already be on those icons when they change. This makes knowing the status of a cell difficult to impossible for users who cannot look at the screen in full. Quick to run code cells with a cell output—like the majority of cells run during these tests— tend to make this a trivial issue, it marks a drastic experience difference for sighted and non-sighted users. Fully sighted users can quickly verify the status of a cell in two different places, go about other work while waiting, and more easily verify when a cell has completed running. 
 
-Participants who could not easily see or could not see the staus indicators at all (since they are small and relatively low contrast) relied on prior experience with notebooks, gut instinct about how long that section of code usually takes to run, or the appearance of a cell output to check a cell’s status. Having at least one non-visual option (like an audio indicator) or a visual option that would represent itself in a timely manner for assistive tech (like a notification) could provide users with the support they want. Making these options customizable would be important as well.
+Participants who could not easily see or could not see the status indicators at all (since they are small and relatively low contrast) relied on prior experience with notebooks, gut instinct about how long that section of code usually takes to run, or the appearance of a cell output to check a cell’s status. Having at least one non-visual option (like an audio indicator) or a visual option that would represent itself promptly for assistive tech (like a notification) could provide users the support they want. Making these options customizable would be necessary as well.
 
 #### Flexible command palette search/filter behavior
 
-Because several participants relied heavily on the command palette to complete tasks, the limit of its filtering arose several times. From the user end, the command palette feels like it searches only for direct matches within the command list for whatever the user types in. If a user knows exactly what they are looking for, they often have success. Participants were sometimes able to quickly and flawlessly locate a desired command. But when they were exploring JupyterLab’s command options, unable to remember the exact name of a command, made a typo, or were unfamiliar with a task many participants had to give up using the command palette in order to complete the task. Depending on the assistive tech they use, typos can also be nontrivial to detect for blind or visually impaired users. Having a fuzzy search or other typo/error support rather than only the direct filter would help the command palette continue to be the boon many participants wanted it to be.
+Because several participants relied heavily on the command palette to complete tasks, the limit of its filtering arose several times. From the user end, the command palette feels like it searches only for direct matches within the command list for whatever the user types in. If users know precisely what they are looking for, they often succeed. Participants were sometimes able to quickly and flawlessly locate a desired command. But when they were exploring JupyterLab’s command options, unable to remember the exact name of a command, made a typo, or were unfamiliar with a task, many participants had to give up using the command palette to complete the task. Depending on their assistive tech, typos can also be nontrivial to detect for blind or visually impaired users. Having a fuzzy search or other typo/error support rather than only the direct filter would help the command palette continue to be the boon many participants wanted it to be.
 
 ## For future tests
 
 Reflecting on the findings and gaps in this set of tests, the following are questions to revisit in the future.
 
 - How might a screen reader user complete common notebook tasks in JupyterLab?
-- What are JupyterLab’s strengths and weaknesses when it comes to authoring notebooks and other documents with assistive tech?
+- What are JupyterLab’s strengths and weaknesses when it comes to authoring notebooks and other documents with assistive tech? The script used in this test asked participants to edit existing cells, but did not ask them to start a notebook from scratch.
 - What more can we learn about navigating JupyterLab, especially with a variety of assistive tech? What are good examples of navigation that support disabled users?
 - What are the full range of notebook cell output types and what feedback to disabled users have on each type?
 - What is the real time collaboration experience in JupyterLab like for assistive tech users? This question requires JupyterLab collaboration modes to be more stable before it can be tested.
