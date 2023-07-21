@@ -13,4 +13,4 @@ This version corresponds to the JupyterLab user testing sessions run during Apri
 - Automated TLJH deployment via Terraform (#3)
 - Automated deploy on changes to requirements.txt (#6)
 - Markdown version of notebooks used for tests (#8)
-- Pinned dependencies (#10)
+- Pinned dependencies (#11)
