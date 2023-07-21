@@ -24,18 +24,17 @@ file types back into NumPy workspaces.
 You'll learn two ways of saving and reading files--as compressed and as
 text files--that will serve most of your storage needs in NumPy.
 
-* You'll create two 1D arrays and one 2D array
-* You'll save these arrays to files
-* You'll remove variables from your workspace
-* You'll load the variables from your saved file
-* You'll compare zipped binary files to human-readable delimited files
-* You'll finish with the skills of saving, loading, and sharing NumPy arrays
-
+- You'll create two 1D arrays and one 2D array
+- You'll save these arrays to files
+- You'll remove variables from your workspace
+- You'll load the variables from your saved file
+- You'll compare zipped binary files to human-readable delimited files
+- You'll finish with the skills of saving, loading, and sharing NumPy arrays
 
 ## What you'll need
 
-* NumPy
-* read-write access to your working directory
+- NumPy
+- read-write access to your working directory
 
 Load the necessary functions using the following command.
 
@@ -45,15 +44,15 @@ import numpy as np
 
 In this tutorial, you will use the following Python, IPython magic, and NumPy functions:
 
-* [`np.arange`](https://numpy.org/doc/stable/reference/generated/numpy.arange.html)
-* [`np.savez`](https://numpy.org/doc/stable/reference/generated/numpy.savez.html)
-* [`del`](https://docs.python.org/3/reference/simple_stmts.html#del)
-* [`whos`](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-whos)
-* [`np.load`](https://numpy.org/doc/stable/reference/generated/numpy.load.html)
-* [`np.block`](https://numpy.org/doc/stable/reference/generated/numpy.block.html)
-* [`np.newaxis`](https://numpy.org/doc/stable/reference/constants.html?highlight=newaxis#numpy.newaxis)
-* [`np.savetxt`](https://numpy.org/doc/stable/reference/generated/numpy.savetxt.html)
-* [`np.loadtxt`](https://numpy.org/doc/stable/reference/generated/numpy.loadtxt.html)
+- [`np.arange`](https://numpy.org/doc/stable/reference/generated/numpy.arange.html)
+- [`np.savez`](https://numpy.org/doc/stable/reference/generated/numpy.savez.html)
+- [`del`](https://docs.python.org/3/reference/simple_stmts.html#del)
+- [`whos`](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-whos)
+- [`np.load`](https://numpy.org/doc/stable/reference/generated/numpy.load.html)
+- [`np.block`](https://numpy.org/doc/stable/reference/generated/numpy.block.html)
+- [`np.newaxis`](https://numpy.org/doc/stable/reference/constants.html?highlight=newaxis#numpy.newaxis)
+- [`np.savetxt`](https://numpy.org/doc/stable/reference/generated/numpy.savetxt.html)
+- [`np.loadtxt`](https://numpy.org/doc/stable/reference/generated/numpy.loadtxt.html)
 
 +++
 
@@ -144,9 +143,11 @@ print(y)
 ```
 
 ## Success
+
 You have created, saved, deleted, and loaded the variables `x` and `y` using `savez` and `load`. Nice work.
 
 ## Another option: saving to human-readable csv
+
 Let's consider another scenario, you want to share `x` and `y` with
 other people or other programs. You may need human-readable text file
 that is easier to share. Next, you use the
@@ -156,6 +157,7 @@ The resulting csv is composed of ASCII characters. You can load the file
 back into NumPy or read it with other programs.
 
 ## Rearrange the data into a single 2D array
+
 First, you have to create a single 2D array from your two 1D arrays. The
 csv-filetype is a spreadsheet-style dataset. The csv arranges numbers in
 rows--separated by new lines--and columns--separated by commas. If the
@@ -177,9 +179,9 @@ print(array_out)
 
 You use `savetxt` with a three options to make your file easier to read:
 
-* `X = array_out`: this option tells `savetxt` to save your 2D array, `array_out`, to the file `x_y-squared.csv`
-* `header = 'x, y'`: this option writes a header before any data that labels the columns of the csv
-* `delimiter = ','`: this option tells `savetxt` to place a comma between each column in the file
+- `X = array_out`: this option tells `savetxt` to save your 2D array, `array_out`, to the file `x_y-squared.csv`
+- `header = 'x, y'`: this option writes a header before any data that labels the columns of the csv
+- `delimiter = ','`: this option tells `savetxt` to place a comma between each column in the file
 
 ```{code-cell}
 np.savetxt("x_y-squared.csv", X=array_out, header="x, y", delimiter=",")
@@ -206,15 +208,14 @@ Open the file, `x_y-squared.csv`, and you'll see the following:
 There are two features that you shoud notice here:
 
 1. NumPy uses `#` to ignore headings when using `loadtxt`. If you're using
-[`loadtxt`](https://numpy.org/doc/stable/reference/generated/numpy.loadtxt.html)
-with other csv files, you can skip header rows with `skiprows =
+   [`loadtxt`](https://numpy.org/doc/stable/reference/generated/numpy.loadtxt.html)
+   with other csv files, you can skip header rows with `skiprows =
 <number_of_header_lines>`.
 2. The integers were written in scientific notation. _You can_ specify
-the format of the text using the `savetxt` option, [`fmt =
+   the format of the text using the `savetxt` option, [`fmt =
 `](https://docs.python.org/3/library/string.html#formatstrings), but it
-will still be written with ASCII characters. In general, you cannot
-preserve the type of ASCII numbers as `float` or `int`.
-
+   will still be written with ASCII characters. In general, you cannot
+   preserve the type of ASCII numbers as `float` or `int`.
 
 Now, delete `x` and `y` again and assign them to your columns in `x-y_squared.csv`.
 
@@ -248,4 +249,4 @@ When you saved the arrays to the csv file, you did not preserve the
 
 In conclusion, you can create, save, and load arrays in NumPy. Saving arrays makes sharing your work and collaboration much easier. There are other ways Python can save data to files, such as [pickle](https://docs.python.org/3/library/pickle.html), but `savez` and `savetxt` will serve most of your storage needs for future NumPy work and sharing with other people, respectively.
 
-__Next steps__: you can import data with missing values from [Importing with genfromtext](https://numpy.org/devdocs/user/basics.io.genfromtxt.html) or learn more about general NumPy IO with [Reading and Writing Files](https://numpy.org/devdocs/user/how-to-io.html).
+**Next steps**: you can import data with missing values from [Importing with genfromtext](https://numpy.org/devdocs/user/basics.io.genfromtxt.html) or learn more about general NumPy IO with [Reading and Writing Files](https://numpy.org/devdocs/user/how-to-io.html).
