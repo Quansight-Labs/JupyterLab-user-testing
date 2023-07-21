@@ -1,6 +1,10 @@
 # Changelog
 
+We use [CalVer](https://calver.org/) in the format of `YYYY-Micro`.
+
 ## [2023.01] - 2023-07-21
+
+This version corresponds to the JupyterLab user testing sessions run during April and May 2023.
 
 ### Added
 
