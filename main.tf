@@ -1,3 +1,7 @@
+# Copyright 2023 Quansight Labs.
+# Use of this source code is governed by a 3-Clause BSD
+# license that can be found in the LICENSE file.
+
 terraform {
   backend "remote" {
     organization = "quansight"
