@@ -2,7 +2,7 @@
 
 These results are from user interviews conducted in May 2023 with [this test script](user-testing-script.md) on [a modified version of NumPy Tutorials’ Saving and sharing your NumPy arrays notebook](https://github.com/Quansight-Labs/JupyterLab-user-testing/blob/main/notebooks/save-load-arrays.ipynb). 
 
-This work was funded by a [Chan Zuckerberg Initiative Essential Open Source Software for Science grant](https://chanzuckerberg.com/eoss/proposals/inclusive-and-accessible-scientific-computing-in-the-jupyter-ecosystem/). The [full grant proposal can be found on the jupyter/accessibility repository](https://github.com/jupyter/accessibility/blob/da6db43da092255c205ce1603d0d10b1f51c131b/docs/funding/Inclusive_and_Accessible_Scientific_Computing_in_Jupyter_Ecosystem_SUBMITTED_PROPOSAL.pdf).
+Participants were first asked to complete a set of tasks: to open files in JupyterLab, find information in a notebook, modify cells in a notebook, change settings in the JupyterLab UI, etc. Then they were interviewed about their experience completing the tasks and about JupyterLab in general.
 
 ## What was tested
 
@@ -42,7 +42,7 @@ This section summarizes issues, participant feedback and other patterns that app
 ### UI customization
 
 - **Participants cared about themes.** Of participants who immediately changed settings to make JupyterLab better for their needs, all but one took the time to change the theme. Participants who were not aware JupyterLab had multiple default themes and found out later in the session remarked positively.
-- **Adjusting all text’s font size and having JupyterLab subsequently reflow its content was highly desired.** This is beyond default JupyterLab’s current text adjustment capabilities, but it does mean that the font size settings we have now are on the right track. 
+- **Adjusting all text’s font size and having JupyterLab subsequently reflow its content was highly desired.** This is beyond default JupyterLab’s current text adjustment capabilities, but it does mean that our font size settings are on the right track. It is important to note that the script explicitly asked participants to change font sizes via JupyterLab as a means of observing how they explored the interface for unfamiliar controls; this did not come up on its own. The benefits of reflowing content did come up independent of script tasks.
 - **[Low color contrast](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html) was not a major blocker for participants to complete tasks, but it was unpleasant.** Some participants overwrote sections of JupyterLab’s default colors with their browser to remedy it, but that is specialized knowledge not available to all possible users. The biggest issues arose when reading code; the syntax highlighting had particularly poor contrast or color combinations that were not distinct to participants.
 
 ### Notebook
@@ -113,7 +113,7 @@ Coarse grain (moving between large JupyterLab sections like the main document ar
 This includes the discoverability of existing UI customization features and the addition of more, or more detailed, customization options. It is important to note that UI customization is most likely to support disabled users who still have some amount of vision available to them which was the case with this test’s participants.
 
 - **JupyterLab does have existing UI customization features by default.** Light versus dark themes, editor font size, and layout modes (Simple Mode, Presentation Mode) all give users choices to set up JupyterLab in a way that may work better for them. Because getting to these features requires users to navigate multiple areas of JupyterLab, and they do not require any domain-specific knowledge, the test script asked participants to engage with some of these features. The overwhelming response was one of positive surprise. Participants wanted to use these features and did not know they existed. Light/dark themes were the most likely to be known, while font size adjustments weren’t known by any participant. Screen magnifier users and other low-vision participants emphasized how helpful font size adjustment would be for them and that they wished they knew about them before.
-- **JupyterLab’s default—meaning without the addition of extensions—UI customization capabilities are limited.** In conversation with participants and in observing the issues they faced, we’ve determined additional UI customization features that would help them better use JupyterLab. Entirely new customization options include selecting from multiple syntax highlighting themes, being able to select major button colors (like the `--jp-brand-color` family), being able to select state colors (like the warning, error, and info color families), and to set a maximum width for documents in the main document area. Additions to existing customization options include more themes beyond light and dark modes, to be able to change all text sizes in JupyterLab, to be able to select text sizes directly rather than in opaque increments (ie. to set font sizes to a point, pixel, or percent value rather than selecting menu items with no feedback), and to assign other or additional indicators for the status of running or freshly completed code cells.
+- **JupyterLab’s default UI customization capabilities are limited without adding extensions.** In conversation with participants and observing their issues, we’ve determined additional UI customization features that would help them better use JupyterLab. Entirely new customization options include selecting from multiple syntax highlighting themes, being able to select major button colors (like the `--jp-brand-color` family), being able to select state colors (like the warning, error, and info color families), and to set a maximum width for documents in the main document area. Additions to existing customization options include more themes beyond light and dark modes, the ability to change all text sizes in JupyterLab, the ability to select text sizes directly rather than in opaque increments (i.e., to set font sizes to a point, pixel, or percent value rather than selecting menu items with no feedback), and to assign other or additional indicators for the status of running or freshly completed code cells.
 
 #### Different options for feedback on cell status 
 
@@ -127,14 +127,19 @@ Because several participants relied heavily on the command palette to complete t
 
 ## For future tests
 
-Reflecting on the findings and gaps in this set of tests, the following are questions to revisit in the future.
+No test can answer all questions. For this series, the focus was on gathering baseline experience information for common notebook-related tasks in JupyterLab as navigated by disabled participants. In order to have a more comprehensive understanding of accessibility status in JupyterLab and in the notebook file, we would need to make a point and test more and different questions. Reflecting on the findings and gaps in this set of tests, the following are questions we could revisit in the future.
 
 - How might a screen reader user complete common notebook tasks in JupyterLab?
 - What are JupyterLab’s strengths and weaknesses when it comes to authoring notebooks and other documents with assistive tech? The script used in this test asked participants to edit existing cells, but did not ask them to start a notebook from scratch.
 - What more can we learn about navigating JupyterLab, especially with a variety of assistive tech? What are good examples of navigation that support disabled users?
 - What are the full range of notebook cell output types and what feedback to disabled users have on each type?
-- What is the real time collaboration experience in JupyterLab like for assistive tech users? This question requires JupyterLab collaboration modes to be more stable before it can be tested.
+- How do disabled users interact with cell status features? Where does it fail them? What do they do instead?
 
 As mentioned in the Limits section, the sample we were able to test with for these sessions was not as comprehensive of varied disabilities and assistive tech as we would like. Recruitment for these sessions was done within existing JupyterLab community spaces and was mostly self-selected; future tests would likely benefit from a more selective sample and outreach to disability communities where appropriate. This should be done with careful consideration as the history of people who make products interrupting disability communities and asking for labor is a fraught one.
 
 A usability testing style script was chosen for this testing session because of the need for scoped and actionable accessibility feedback in JupyterLab, project timeline, available team, and other logistical constraints. After these results, we can recommend that observational/[field studies](https://www.nngroup.com/articles/field-studies/) would be useful in understanding the broader, holistic accessibility issues within JupyterLab’s user experience that a study like this is not suited to survey.
+
+## Funding
+
+This work was funded by a [Chan Zuckerberg Initiative Essential Open Source Software for Science grant](https://chanzuckerberg.com/eoss/proposals/inclusive-and-accessible-scientific-computing-in-the-jupyter-ecosystem/). The [full grant proposal can be found on the jupyter/accessibility repository](https://github.com/jupyter/accessibility/blob/da6db43da092255c205ce1603d0d10b1f51c131b/docs/funding/Inclusive_and_Accessible_Scientific_Computing_in_Jupyter_Ecosystem_SUBMITTED_PROPOSAL.pdf).
+
