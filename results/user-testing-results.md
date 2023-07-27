@@ -125,7 +125,7 @@ Participants who could not easily see or could not see the status indicators at 
 
 Because several participants relied heavily on the command palette to complete tasks, the limit of its filtering arose several times. From the user end, the command palette feels like it searches only for direct matches within the command list for whatever the user types in. If users know precisely what they are looking for, they often succeed. Participants were sometimes able to quickly and flawlessly locate a desired command. But when they were exploring JupyterLab’s command options, unable to remember the exact name of a command, made a typo, or were unfamiliar with a task, many participants had to give up using the command palette to complete the task. Depending on their assistive tech, typos can also be nontrivial to detect for blind or visually impaired users. Having a fuzzy search or other typo/error support rather than only the direct filter would help the command palette continue to be the boon many participants wanted it to be.
 
-## For future tests
+## Potential Future Work
 
 No test can answer all questions. For this series, the focus was on gathering baseline experience information for common notebook-related tasks in JupyterLab as navigated by disabled participants. In order to have a more comprehensive understanding of accessibility status in JupyterLab and in the notebook file, we would need to make a point and test more and different questions. Reflecting on the findings and gaps in this set of tests, the following are questions we could revisit in the future.
 
